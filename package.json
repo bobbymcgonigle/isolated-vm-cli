@@ -1,0 +1,33 @@
+{
+  "name": "@bobbymcgonigle/isolated-vm-cli",
+  "version": "1.0.0",
+  "description": "Cli tool to run JavaScript files in isolated process or thread",
+  "main": "src/index.js",
+  "bin": {
+    "@bobbymcgonigle/isolated-vm-cli": "bin/isolated-vm-cli",
+    "isolated-vm-cli": "bin/isolated-vm-cli"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "isolated-vm-cli"
+  ],
+  "author": "bobbymcgonigle",
+  "license": "ISC",
+  "dependencies": {
+    "arg": "^5.0.0",
+    "esm": "^3.2.25",
+    "inquirer": "^7.3.3",
+    "isolated-vm": "^3.3.7"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobbymcgonigle/isolated-vm-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bobbymcgonigle/isolated-vm-cli/issues"
+  },
+  "homepage": "https://github.com/bobbymcgonigle/isolated-vm-cli#readme"
+}

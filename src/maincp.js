@@ -1,0 +1,59 @@
+import chalk from 'chalk';
+
+let ivm = require('isolated-vm');
+let fs = require('fs');
+
+function async createIsolate(memoryLimit) {
+  // Function creates a new V8 instance; I.e. give us a new environment to
+  // execute js files that are isolated from eachother
+
+  let isolate = new ivm.Isolate({ memoryLimit: 16 });
+  let context = isolate.createContext();
+  let jail = context.global;
+  jail.set('context', context);
+  jail.set('isolate', isolate);
+  jail.set('global', jail.derefInto());
+  return { isolate, context, jail };
+}
+
+async function compileAndExecute(filename, memoryLimit, logs) {
+  // Function is responsible for compiling code, executing it in a new isolate
+  // and returning what was logged to console as well as the most recently evaluated
+  // <replace>
+  
+  const code = fs.readFileSync(__dirname + "/" + filename, {
+    encoding: "UTF8"
+  });
+
+  let env = createIsolate(memoryLimit);
+  const logCallback = function(...args) {
+    logs.push(args);
+  }
+  await context.evalClosure(
+    `global.console.log = function(...args) {
+        $0.applyIgnored(undefined, args, { arguments: { copy: true } });
+    }`,
+    [logCallback],
+    { arguments: { reference: true } }
+  );
+
+  try {
+    const script = await env.isolate.compileScript(code, {
+      filename: "sandbox.js",
+    });
+    const result = await script.run(env.context, {
+      promise: true,
+      timeout: 150000,
+    });
+    console.log(logs);
+    return { logs, result };
+  } catch (err) {
+    return { logs, result: err.stack };
+  }
+}
+
+export async function runScriptInIsolate(options) {
+  const logs = [];
+  logs.push( compileAndExecute("test.js", 16, logs) );
+  console.log(logs);
+}
