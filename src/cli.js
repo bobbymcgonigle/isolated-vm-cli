@@ -3,9 +3,8 @@ import inquirer from 'inquirer';
 import { processScriptOptions } from './main';
 let path = require('path');
 
-function parseArgumentsToOptions(rawArgs) {
+export function parseArgumentsToOptions(rawArgs) {
   // Take our raw arguments and process them into options.
-  
   const args = arg(
     {
        '--isolateMemoryLimit': Number, 
@@ -91,5 +90,6 @@ export async function cli(args) {
 
   let options = parseArgumentsToOptions(args);
   options = await promptForMissingOptions(options);
+  console.log(options);
   await processScriptOptions(options); 
 }

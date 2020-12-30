@@ -8,7 +8,7 @@
     "isolated-vm-cli": "bin/isolated-vm-cli"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require esm"
   },
   "keywords": [
     "isolated-vm-cli"
@@ -17,11 +17,14 @@
   "license": "ISC",
   "dependencies": {
     "arg": "^5.0.0",
-    "esm": "^3.2.25",
     "inquirer": "^7.3.3",
     "isolated-vm": "^3.3.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^8.2.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bobbymcgonigle/isolated-vm-cli.git"
