@@ -7,4 +7,31 @@ Background for those not involved in the JS/Node world like me: V8 is Google's o
 
 isolated-vm is a library for nodejs which gives you access to v8's Isolate interface. This cli simply uses this nodejs library to run .js files in secure environments to safely run untrusted code etc.
 
+## Example Usage
+test_input1.js
+```
+console.log("This ; should give us a syntax error";)
+let foo = 1; let bar = 2;
+bar = foo + bar;
+```
+test_input2.js
+```
+console.log("This script should have two log entries");
+console.log("This script should succeed and return 3.");
+let foo = 1; let bar = 2;
+bar = foo + bar;
+```
+Example using --skipPrompts:
+```
+isolated-vm-cli test_input1.js test_input2.js --skipPrompts
 
+Filename: test_input1.js
+Logs:
+Result: SyntaxError: missing ) after argument list [<isolated-vm>:1:13]
+    at (<isolated-vm boundary>)
+    at compileAndExecute (/Users/bobbymcgonigle/isolated-vm-cli/src/main.js:39:34)
+
+Filename: test_input2.js
+Logs: This script should have two log entries,This script should succeed and return 3.
+Result: 3
+```

@@ -8,6 +8,8 @@ function parseArgumentsToOptions(rawArgs) {
   
   const args = arg(
     {
+       '--isolateMemoryLimit': Number, 
+       '--timeout': Number,
        '--skipPrompts': Boolean,
        '--runAllInDir': Boolean,
        '--printIsolateStats': Boolean,
@@ -17,9 +19,9 @@ function parseArgumentsToOptions(rawArgs) {
     }
   );
   return {
-    scriptToRun: args._[0],
-    isolateMemoryLimit: args._[1],
-    timeout: args._[2],
+    scriptToRun: args._,
+    isolateMemoryLimit: args['--isolateMemoryLimit'],
+    timeout: args['--timeout'],
     skipPrompts: args['--skipPrompts'],
     runAllInDir: args['--runAllInDir'],
     runAllInDir: args['--printIsolateStats'],
