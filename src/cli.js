@@ -5,6 +5,7 @@ let path = require('path');
 
 export function parseArgumentsToOptions(rawArgs) {
   // Take our raw arguments and process them into options.
+  
   const args = arg(
     {
        '--isolateMemoryLimit': Number, 
@@ -23,11 +24,11 @@ export function parseArgumentsToOptions(rawArgs) {
     timeout: args['--timeout'],
     skipPrompts: args['--skipPrompts'],
     runAllInDir: args['--runAllInDir'],
-    runAllInDir: args['--printIsolateStats'],
+    printIsolateStats: args['--printIsolateStats'],
   }
 }
 
-async function promptForMissingOptions(options) {
+export async function promptForMissingOptions(options) {
   // Function prompts the user for different options.
   // skipped when --skipPrompts is specified in cli and we use default values for 
   // options not specified. Only requirement when using --skipPrompts is they must
@@ -73,6 +74,14 @@ async function promptForMissingOptions(options) {
       default: defaultValue,
     });
   }
+  
+  if(!options.printIsolateStats) {
+    questions.push({
+      type: Number,
+      name: 'printIsolateStats',
+      message: 'Print isolate Statistics',
+    });
+  }
 
   // Actually ask the questions using inquirer.
   const answers = await inquirer.prompt(questions);
@@ -81,6 +90,7 @@ async function promptForMissingOptions(options) {
     scriptToRun: options.scriptToRun || answers.scriptToRun,
     isolateMemoryLimit: options.isolateMemoryLimit || answers.isolateMemoryLimit,
     timeout: options.timeout || answers.timeout,
+    printIsolateStats: options.printIsolateStats || answers.printIsolateStats,
   };
 }
 
@@ -90,6 +100,5 @@ export async function cli(args) {
 
   let options = parseArgumentsToOptions(args);
   options = await promptForMissingOptions(options);
-  console.log(options);
-  await processScriptOptions(options); 
+  processScriptOptions(options); 
 }

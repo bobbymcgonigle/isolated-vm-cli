@@ -2,7 +2,7 @@
   "name": "@bobbymcgonigle/isolated-vm-cli",
   "version": "1.0.0",
   "description": "Cli tool to run JavaScript files in isolated process or thread",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "bin": {
     "@bobbymcgonigle/isolated-vm-cli": "bin/isolated-vm-cli",
     "isolated-vm-cli": "bin/isolated-vm-cli"
