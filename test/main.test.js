@@ -41,7 +41,7 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
-    const consoleLogs = printResult(rawResult, true).toString();
+    const consoleLogs = printResult(rawResult, true, true).toString();
     assert.equal(consoleLogs.includes('Cpu time:'), true);
     assert.equal(consoleLogs.includes('Wall time:'), true);
     assert.equal(consoleLogs.includes('Heap Stats:'), true);
@@ -71,7 +71,7 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
-    const consoleLogs = printResult(rawResult, false).toString();
+    const consoleLogs = printResult(rawResult, false, true).toString();
     assert.equal(consoleLogs.includes('Cpu time:'), false);
     assert.equal(consoleLogs.includes('Wall time:'), false);
     assert.equal(consoleLogs.includes('Heap Stats:'), false);

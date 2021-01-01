@@ -1,7 +1,7 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
 import { processScriptOptions } from './main';
-let path = require('path');
+import path from 'path';
 
 export function parseArgumentsToOptions(rawArgs) {
   // Take our raw arguments and process them into options.
@@ -29,8 +29,7 @@ export function parseArgumentsToOptions(rawArgs) {
 export async function promptForMissingOptions(options) {
   // Function prompts the user for different options.
   // skipped when --skipPrompts is specified in cli and we use default values for 
-  // options not specified. Only requirement when using --skipPrompts is they must
-  // either give us a file or have passed --runAllInDir.
+  // options not specified.
 
   // Default value for both timeout and memory if not specified and skipping prompts.
   const defaultValue = 128;
@@ -74,7 +73,7 @@ export async function promptForMissingOptions(options) {
   
   if(!options.printIsolateStats) {
     questions.push({
-      type: Number,
+      type: Boolean,
       name: 'printIsolateStats',
       message: 'Print isolate Statistics',
     });

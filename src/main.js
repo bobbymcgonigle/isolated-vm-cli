@@ -11,7 +11,7 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
   const logs = [];
   let code;
   try {
-    code = fs.readFileSync(path.resolve("./",filename), {
+    code = fs.readFileSync(path.resolve("./", filename), {
       encoding: "UTF8"
     });
   } catch (err) {
@@ -36,8 +36,8 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
         $0.applyIgnored(undefined, args, { arguments: { copy: true } });
     }`,
     [logCallback],
-    { arguments: { reference: true } }
-  );
+    { arguments: { reference: true }
+    });
 
   let heapStats = {};
   let cpuTime = [];
@@ -61,17 +61,20 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
   }
 }
 
-export function printResult(result, printIsolateStats) {
+export function printResult(result, printIsolateStats, debugMode) {
   // This function is responsible for printing results from each of the scripts we ran.
-
+  
   // I'm confident there should be a better way to do this but...
   // This creates a hook for the console.log function so that anything logged is stored to
-  // console.logs; I'm only using this to return logged data for unit testing in main.test.js
+  // console.logs; I'm only using this to return logged data for unit testing in main.test.js where debugMode=true
+  // will be used.
   // Console hook start.
-  console.stdlog = console.log.bind(console);
-  console.logs = [];
-  console.log = function(){
-    console.logs.push(Array.from(arguments));
+  if(debugMode) {
+    console.stdlog = console.log.bind(console);
+    console.logs = [];
+    console.log = function(){
+      console.logs.push(Array.from(arguments));
+    }
   }
   // Console hook end.
 
@@ -83,7 +86,6 @@ export function printResult(result, printIsolateStats) {
     const wallInMil = (result.wallTime[0]*1000000000 + result.wallTime[1])/1000000;
     console.log("Heap Stats: %s\nCpu time: %s\nWall time: %s", result.heapStats, cpuInMil, wallInMil);
   }
-
   return console.logs;
 }
 
@@ -92,14 +94,12 @@ export async function processScriptOptions(options) {
   // provided options and sets them up for compilation and execution.
 
   assert(options);
-
   const outputs = [];
   options.scriptToRun.forEach(script => outputs.push(compileAndExecute(script, options.isolateMemoryLimit, options.timeout)));
 
   Promise.all(outputs).then(function(results) {
-    results.forEach(result => printResult(result, options.printIsolateStats));
+    results.forEach(result => printResult(result, options.printIsolateStats, false));
   }, function(err) {
     console.log(err);
   });
 }
-
