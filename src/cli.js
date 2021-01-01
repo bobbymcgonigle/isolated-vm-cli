@@ -11,7 +11,6 @@ export function parseArgumentsToOptions(rawArgs) {
        '--isolateMemoryLimit': Number, 
        '--timeout': Number,
        '--skipPrompts': Boolean,
-       '--runAllInDir': Boolean,
        '--printIsolateStats': Boolean,
     },
     {
@@ -23,7 +22,6 @@ export function parseArgumentsToOptions(rawArgs) {
     isolateMemoryLimit: args['--isolateMemoryLimit'],
     timeout: args['--timeout'],
     skipPrompts: args['--skipPrompts'],
-    runAllInDir: args['--runAllInDir'],
     printIsolateStats: args['--printIsolateStats'],
   }
 }
@@ -47,8 +45,7 @@ export async function promptForMissingOptions(options) {
   // --skipPrompts not used; ask questions.
   const questions = [];
   
-  // Don't ask what file to use if --runAllInDir is used. 
-  if(!options.scriptToRun && !options.runAllInDir) {
+  if(!options.scriptToRun) {
     questions.push({
       type: String,
       name: 'scriptToRun',

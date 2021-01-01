@@ -1,4 +1,4 @@
-var assert = require('assert');
+import assert from 'assert';
 import { compileAndExecute, printResult } from '../src/main'; 
 
 describe('Expected results from compileAndExecute()', function() {
@@ -16,17 +16,8 @@ describe('Expected results from compileAndExecute()', function() {
   });
 });
 
-describe('Expected results from processScriptOptions()', function() {
-  
-  it('Ensure that the three test_files get run when --runAllInDir is used', function() {
-    return compileAndExecute("test_files/test_input3.js", 1, 1 ).then(result => {
-      assert.equal(result.result.includes('Script execution timed out'), true);
-    });
-  });
-});
-
 describe('Expected results from printResult()', function() {
-  it('Make sure that heap stats are printed when --printIsolateStats is used', function() {
+  it('Make sure that isolate stats are printed when --printIsolateStats is used', function() {
     // Example using test_input2.js
     const rawResult = {
       filename: '../test_files/test_input2.js',
@@ -50,19 +41,13 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
-    printResult(rawResult, true);
-    console.log(console.logs);
-    //TODO: figure out how to read stdout, let this pass for now
-    //assert.equal(result.result.includes('Script execution timed out'), true);
+    const consoleLogs = printResult(rawResult, true).toString();
+    assert.equal(consoleLogs.includes('Cpu time:'), true);
+    assert.equal(consoleLogs.includes('Wall time:'), true);
+    assert.equal(consoleLogs.includes('Heap Stats:'), true);
   });
+  
   it('Make sure that isolate stats are not printed when --printIsolateStats is not used', function() {
-    console.stdlog = console.log.bind(console);
-    console.logs = [];
-    console.log = function(){
-          console.logs.push(Array.from(arguments));
-          console.stdlog.apply(console, arguments);
-    }
-
     // Example using test_input2.js
     const rawResult = {
       filename: '../test_files/test_input2.js',
@@ -86,7 +71,9 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
-    //TODO: figure out how to read stdout, let this pass for now
-    //assert.equal(result.result.includes('Script execution timed out'), true);
+    const consoleLogs = printResult(rawResult, false).toString();
+    assert.equal(consoleLogs.includes('Cpu time:'), false);
+    assert.equal(consoleLogs.includes('Wall time:'), false);
+    assert.equal(consoleLogs.includes('Heap Stats:'), false);
   });
 });

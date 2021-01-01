@@ -1,5 +1,6 @@
-let ivm = require('isolated-vm');
-let fs = require('fs');
+import ivm from 'isolated-vm';
+import assert from 'assert';
+import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 
@@ -17,6 +18,8 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
     // We couldn't resolve the path to specified .js file
     return { filename, logs, result: err.stack };
   }
+
+  assert(code);
 
   // API info with explanation for below implementation
   // https://github.com/laverdet/isolated-vm#api-documentation
@@ -69,11 +72,9 @@ export function printResult(result, printIsolateStats) {
   console.logs = [];
   console.log = function(){
     console.logs.push(Array.from(arguments));
-    console.stdlog.apply(console, arguments);
   }
   // Console hook end.
 
-  // Start of the actual printing.
   console.log("Filename: %s\nLogs: %s\nResult: %s\n", result.filename, result.logs.toString(), result.result);
   
   if(printIsolateStats && result.cpuTime && result.wallTime ) {
@@ -89,21 +90,12 @@ export function printResult(result, printIsolateStats) {
 export async function processScriptOptions(options) {
   // Function is responsible for what js files we're going to use from the
   // provided options and sets them up for compilation and execution.
-  
+
+  assert(options);
+
   const outputs = [];
-  let files = [];
+  options.scriptToRun.forEach(script => outputs.push(compileAndExecute(script, options.isolateMemoryLimit, options.timeout)));
 
-  if(options.runAllInDir) {
-    files = fs.readdirSync('./');
-  } else {
-    files = options.scriptToRun;
-  }
-
-  for (const script of files) {
-    outputs.push(compileAndExecute(script, options.isolateMemoryLimit, options.timeout));
-  }
-
-  // Print each result
   Promise.all(outputs).then(function(results) {
     results.forEach(result => printResult(result, options.printIsolateStats));
   }, function(err) {
