@@ -2,7 +2,6 @@ import assert from 'assert';
 import { compileAndExecute, printResult } from '../src/main'; 
 
 describe('Expected results from compileAndExecute()', function() {
-  
   it('Ensure we get an error in result when passing in non-existent filename/location', function() {
     return compileAndExecute("../test_files/i_do_not_exist.js", 1, 1 ).then(result => {
       assert.equal(result.result.includes('no such file or directory'), true);
@@ -41,6 +40,7 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
+    
     const consoleLogs = printResult(rawResult, true, true).toString();
     assert.equal(consoleLogs.includes('Cpu time:'), true);
     assert.equal(consoleLogs.includes('Wall time:'), true);
@@ -71,6 +71,7 @@ describe('Expected results from printResult()', function() {
       cpuTime: [ 0, 1181428 ],
       wallTime: [ 0, 1238120 ]
     };
+    
     const consoleLogs = printResult(rawResult, false, true).toString();
     assert.equal(consoleLogs.includes('Cpu time:'), false);
     assert.equal(consoleLogs.includes('Wall time:'), false);

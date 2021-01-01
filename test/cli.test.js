@@ -29,6 +29,7 @@ describe('Expected results from parseArgumentsToOptions()', function() {
       '--isolateMemoryLimit=18',
       '--timeout=18'
     ];
+    
     const expectedOutput = {
       scriptToRun: [ '../test_files/test_input2.js' ],
       isolateMemoryLimit: 18,
@@ -38,6 +39,7 @@ describe('Expected results from parseArgumentsToOptions()', function() {
     };
     assert.deepEqual( parseArgumentsToOptions(rawArgs), expectedOutput );
   });
+  
   it('providing no script --printIsolateStats', function() {
     const rawArgs = [
       '/usr/local/Cellar/node/15.4.0/bin/node',
