@@ -1,5 +1,5 @@
 ## npm run test
-
+```
 ➜  isolated-vm-cli git:(main) ✗ npm run test
 
 > @bobbymcgonigle/isolated-vm-cli@1.0.0 test
@@ -7,8 +7,8 @@
 
 
   Expected results from parseArgumentsToOptions()\
-    ✓ ./test and --skipPrompts only should leave certain values undefined\
-    ✓ ./test --isolateMemoryLimit and --timeout\
+    ✓ <filename> and --skipPrompts only should leave certain values undefined\
+    ✓ <filename> --isolateMemoryLimit and --timeout\
     ✓ providing no script --printIsolateStats\
 
   Expected results from compileAndExecute()\
@@ -21,3 +21,4 @@
 
 
   8 passing (15ms)
+```
