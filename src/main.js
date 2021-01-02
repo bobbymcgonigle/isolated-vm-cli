@@ -19,8 +19,6 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
     return { filename, logs, result: err.stack };
   }
 
-  assert(code);
-
   // API info with explanation for below implementation
   // https://github.com/laverdet/isolated-vm#api-documentation
   const isolate = new ivm.Isolate({ memoryLimit: 128 });
@@ -95,7 +93,8 @@ export async function processScriptOptions(options) {
 
   assert(options);
   const outputs = [];
-  options.scriptToRun.forEach(script => outputs.push(compileAndExecute(script, options.isolateMemoryLimit, options.timeout)));
+  const timeout = parseInt(options.timeout, 10);
+  options.scriptToRun.forEach(script => outputs.push(compileAndExecute(script, options.isolateMemoryLimit, timeout)));
 
   Promise.all(outputs).then(function(results) {
     results.forEach(result => printResult(result, options.printIsolateStats, false));
