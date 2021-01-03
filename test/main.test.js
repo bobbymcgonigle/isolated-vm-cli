@@ -9,17 +9,35 @@ describe('Expected results from compileAndExecute()', function() {
   });
 
   it('Ensure script times out when we pass --timeout=X', function() {
-    return compileAndExecute("test_files/test_input3.js", 1, 1 ).then(result => {
+    return compileAndExecute("test_files/timeout.js", 1, 1 ).then(result => {
       assert.equal(result.result.includes('Script execution timed out'), true);
     });
+  });
+  
+  it('Ensure empty file returns results undefined', function() {
+    return compileAndExecute("test_files/empty.js", 1, 1 ).then(result => {
+      assert.equal(result.result == null, true);
+    })
+  });
+
+  it('Ensure logs and return value for sum.js match expected', function() {
+    return compileAndExecute("test_files/sum.js", 128, 128 ).then(result => {
+      const expectedLogs = [
+            [ 'This script should succeed' ],
+            [ 'This script should return the sum of 2 + 2' ]
+      ];
+
+      assert.equal(result.result, 4);
+      assert.deepEqual(result.logs, expectedLogs);
+    })
   });
 });
 
 describe('Expected results from printResult()', function() {
-  it('Make sure that isolate stats are printed when --printIsolateStats is used', function() {
+  it('Ensure that isolate stats are printed when --printIsolateStats is used', function() {
     // Example using test_input2.js
     const rawResult = {
-      filename: '../test_files/test_input2.js',
+      filename: '/test_files/sum.js',
       logs: [
         [ 'This script should succeed' ],
         [ 'This script should return the sum of 2 + 2' ]
@@ -47,10 +65,10 @@ describe('Expected results from printResult()', function() {
     assert.equal(consoleLogs.includes('Heap Stats:'), true);
   });
   
-  it('Make sure that isolate stats are not printed when --printIsolateStats is not used', function() {
+  it('Ensure that isolate stats are not printed when --printIsolateStats is not used', function() {
     // Example using test_input2.js
     const rawResult = {
-      filename: '../test_files/test_input2.js',
+      filename: '/test_files/sum.js.js',
       logs: [
         [ 'This script should succeed' ],
         [ 'This script should return the sum of 2 + 2' ]
