@@ -6,8 +6,8 @@ import { parseArgumentsToOptions, promptForMissingOptions } from '../src/cli';
 function mockResponse(str) {
   // This function just sends some input to stdin, useful for testing cli
 
-  stdin.stdin.send(str, "ascii");
-  stdin.stdin.send("\x0D", "ascii"); // ascii value for Enter key
+  stdin.send(str, "ascii");
+  stdin.send("\x0D", "ascii"); // ascii value for Enter key
 }
 
 describe('Expected results from promptForMissingOptions()', function() {
