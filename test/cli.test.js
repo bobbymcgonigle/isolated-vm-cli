@@ -13,7 +13,6 @@ function mockResponse(str) {
 describe('Expected results from promptForMissingOptions()', function() {
   it('Ensure that printIsolateStats is prompted for, and correct answer taken from stdin'
     , async function() {
-
     const options = {
       scriptToRun: [ '../test_files/test_input2.js' ],
       isolateMemoryLimit: 128,
@@ -42,7 +41,6 @@ describe('Expected results from promptForMissingOptions()', function() {
   
   it('Ensure that timeout is prompted for, and correct answer taken from stdin'
     , async function() {
-
     const options = {
       scriptToRun: [ '../test_files/test_input2.js' ],
       isolateMemoryLimit: 128,
@@ -71,7 +69,6 @@ describe('Expected results from promptForMissingOptions()', function() {
   
   it('Ensure that isolateMemoryLimit is prompted for, and correct answer taken from stdin'
     , async function() {
-
     const options = {
       scriptToRun: [ '../test_files/test_input2.js' ],
       isolateMemoryLimit: undefined,
