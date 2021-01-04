@@ -78,7 +78,7 @@ export function printResult(result, printIsolateStats, debugMode) {
 
   console.log("Filename: %s\nLogs: %s\nResult: %s\n", result.filename, result.logs.toString(), result.result);
   
-  if(printIsolateStats && result.cpuTime && result.wallTime ) {
+  if(printIsolateStats && result.cpuTime && result.wallTime) {
     // cpuTime and wallTime are in format [Seconds, NanoSeconds]: convert first to ns then to ms.
     const cpuInMil = (result.cpuTime[0]*1000000000 + result.cpuTime[1])/1000000;
     const wallInMil = (result.wallTime[0]*1000000000 + result.wallTime[1])/1000000;
