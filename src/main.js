@@ -21,7 +21,7 @@ export async function compileAndExecute(filename, isolateMemoryLimit, timeout) {
 
   // API info with explanation for below implementation
   // https://github.com/laverdet/isolated-vm#api-documentation
-  const isolate = new ivm.Isolate({ memoryLimit: 128 });
+  const isolate = new ivm.Isolate({ memoryLimit: isolateMemoryLimit });
   const context = await isolate.createContext();
   const jail = context.global;
   await jail.set("global", jail.derefInto());
