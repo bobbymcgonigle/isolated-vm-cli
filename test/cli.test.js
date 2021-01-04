@@ -112,7 +112,7 @@ describe('Expected results from parseArgumentsToOptions()', function() {
       skipPrompts: true,
       printIsolateStats: undefined,
     };
-    assert.deepEqual( parseArgumentsToOptions(rawArgs), expectedOutput );
+    assert.deepEqual(parseArgumentsToOptions(rawArgs), expectedOutput);
   });
 
   it('./test --isolateMemoryLimit and --timeout', function() {
@@ -132,7 +132,7 @@ describe('Expected results from parseArgumentsToOptions()', function() {
       skipPrompts: true,
       printIsolateStats: undefined,
     };
-    assert.deepEqual( parseArgumentsToOptions(rawArgs), expectedOutput );
+    assert.deepEqual(parseArgumentsToOptions(rawArgs), expectedOutput);
   });
   
   it('providing no script --printIsolateStats', function() {
@@ -151,6 +151,6 @@ describe('Expected results from parseArgumentsToOptions()', function() {
       timeout: 18,
       printIsolateStats: true,
     };
-    assert.deepEqual( parseArgumentsToOptions(rawArgs), expectedOutput );
+    assert.deepEqual(parseArgumentsToOptions(rawArgs), expectedOutput);
   });
 });
